@@ -20,10 +20,6 @@ const console_1 = require("console");
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, author, genre, price, pageCount, description, image } = bookValidators_1.bookSchema.parse(req.body);
-        if (!req.body.image) {
-            throw new Error("Image URL is required");
-        }
-        (0, console_1.log)(req.body);
         const newBook = new book_1.default({
             title,
             author,

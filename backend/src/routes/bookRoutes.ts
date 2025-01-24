@@ -1,4 +1,3 @@
-// backend/routes/bookRoutes.ts
 import express from "express";
 import {
   createBook,
@@ -11,11 +10,11 @@ import {
 
 const router = express.Router();
 
-router.post("/books", createBook);
-router.get("/books", getAllBooks);
-router.get("/books/:id", getBookById);
-router.put("/books/:id", updateBook);
-router.delete("/books/:id", deleteBook);
-router.delete("/books/", deleteAllBooks);
+router.post("/createBook", createBook);
+router.get("/getAllBooks", getAllBooks);
+router.get("/getBookById/:id", getBookById);
+router.put("/updateBook/:id", updateBook);
+router.delete("/deleteBook/:id", deleteBook);
+router.delete("/deleteAllBooks", deleteAllBooks);
 
 export default router;

@@ -1,8 +1,6 @@
 import Book_logo from "../public/images/book_logo.png";
 import NavBar from "./NavBar";
 
-
-
 const Header = () => {
     return (
         <header className="header">

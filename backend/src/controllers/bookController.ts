@@ -1,4 +1,3 @@
-// backend/controllers/bookController.ts
 import { Request, Response } from "express";
 import Book from "../models/book";
 import { bookSchema } from "../validators/bookValidators";

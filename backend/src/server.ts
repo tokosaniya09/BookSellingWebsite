@@ -23,6 +23,12 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.error('MongoDB Connection Failed:', err));
 
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to the Book Selling API');
 });

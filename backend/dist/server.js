@@ -21,6 +21,10 @@ mongoose_1.default
     .connect(mongoURI)
     .then(() => console.log('MongoDB Connected'))
     .catch((err) => console.error('MongoDB Connection Failed:', err));
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 app.get('/', (req, res) => {
     res.send('Welcome to the Book Selling API');
 });

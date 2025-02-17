@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUserProfile = exports.loginUser = exports.registerUser = void 0;
+exports.logoutUser = exports.deleteUser = exports.getUserProfile = exports.loginUser = exports.registerUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,7 +42,8 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (err) {
-        res.status(400).json({ message: err.message });
+        console.error("Error in registerUser:", err);
+        res.status(400).json({ message: `Something went wrong: ${err.message}` });
     }
 });
 exports.registerUser = registerUser;
@@ -58,7 +59,13 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).json({ message: "Invalid credentials" });
         }
         const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || "secret", { expiresIn: "30d" });
-        return res.status(200).json({
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
+        res.status(200).json({
             message: "Login successful",
             token,
             user: {
@@ -71,7 +78,8 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (err) {
-        return res.status(400).json({ message: err.message });
+        console.error("Error in loginUser:", err);
+        return res.status(400).json({ message: `Something went wrong: ${err.message}` });
     }
 });
 exports.loginUser = loginUser;
@@ -119,3 +127,8 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+const logoutUser = (req, res) => {
+    res.clearCookie('token', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' });
+    res.status(200).json({ message: 'Logged out successfully' });
+};
+exports.logoutUser = logoutUser;

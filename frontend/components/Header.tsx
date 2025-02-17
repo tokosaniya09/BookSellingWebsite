@@ -10,7 +10,7 @@ const Header = () => {
             </div>
             <NavBar/>            
         </header>
-    )
-}
+    );
+};
 
 export default Header;
